@@ -7,6 +7,8 @@ public enum Team
     Enemy,
     Player
 }
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(BoxCollider2D))]
 public class Bullet : MonoBehaviour
 {
     public Team team;
@@ -21,6 +23,10 @@ public class Bullet : MonoBehaviour
     private void Move()
     {
         transform.Translate(direction * speed * Time.deltaTime);
+        if (IngameManager.Instance.OutlineBound(transform.position))
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collider2D)
