@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 697556062204003333}
   - component: {fileID: 697556062204003334}
   - component: {fileID: 697556062204003343}
-  - component: {fileID: 6523004416233245060}
+  - component: {fileID: 7929898413808515343}
   m_Layer: 0
   m_Name: Bullet Enemy
   m_TagString: Enemy
@@ -72,13 +72,13 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 6832bfae97db63d4d968a08ebb6a705e, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_SortingOrder: 1
+  m_Sprite: {fileID: 21300000, guid: af0735af996fd8446b77648eb85fc6a0, type: 3}
+  m_Color: {r: 1, g: 0.29803923, b: 0.34117648, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.45, y: 0.45}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -101,8 +101,8 @@ MonoBehaviour:
   defaultHp: 6
   bullet: {fileID: 1395855589348654776, guid: d9ac35fea9413ae4a86be21e3221bfeb, type: 3}
   shootCooltime: 2
---- !u!61 &6523004416233245060
-BoxCollider2D:
+--- !u!58 &7929898413808515343
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -115,15 +115,5 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.84, y: 1.45}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.84, y: 1.45}
-  m_EdgeRadius: 0
+  m_Radius: 0.225

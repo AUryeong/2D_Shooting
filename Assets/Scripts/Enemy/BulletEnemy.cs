@@ -5,7 +5,7 @@ using UnityEngine;
 public class BulletEnemy : Enemy
 {
     [SerializeField] Bullet bullet;
-    public float shootCooltime;
+    [SerializeField] float shootCooltime;
     private float shootDuration;
 
     protected override void Update()

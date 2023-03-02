@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7625957916191556412}
   - component: {fileID: 7625957916191556415}
   - component: {fileID: 7625957916191556414}
-  - component: {fileID: 7625957916191556413}
+  - component: {fileID: 2775322374449082011}
   m_Layer: 0
   m_Name: Default Enemy
   m_TagString: Enemy
@@ -72,13 +72,13 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 317b89e6b0bb5b44892b479ab01b88b6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_SortingOrder: 1
+  m_Sprite: {fileID: 21300000, guid: 56424768846d8ac44a45ce50c4256501, type: 3}
+  m_Color: {r: 1, g: 0.29803923, b: 0.34117648, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.33, y: 0.33}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -98,8 +98,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 1.2
   hp: 5
-  defaultHp: 5
---- !u!61 &7625957916191556413
+  defaultHp: 3
+--- !u!61 &2775322374449082011
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -116,12 +116,12 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.91, y: 1.02}
-    newSize: {x: 1, y: 1}
+    oldSize: {x: 0.33, y: 0.33}
+    newSize: {x: 0.33, y: 0.33}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.91, y: 1.02}
+  m_Size: {x: 0.33, y: 0.33}
   m_EdgeRadius: 0

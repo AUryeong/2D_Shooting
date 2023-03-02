@@ -10,10 +10,12 @@ public class PoolManager : Singleton<PoolManager>
     {
         if (pools.ContainsKey(baseObj))
         {
-            GameObject disableObj = pools[baseObj].Find(x => !x.gameObject.activeSelf);
+            GameObject disableObj = pools[baseObj].Find(x =>  x != null &&!x.gameObject.activeSelf);
             if(disableObj != null)
             {
                 disableObj.gameObject.SetActive(true);
+                disableObj.transform.rotation = baseObj.transform.rotation;
+                disableObj.transform.localScale = baseObj.transform.localScale;
                 return disableObj;
             }
         }

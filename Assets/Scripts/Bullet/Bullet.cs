@@ -8,7 +8,6 @@ public enum Team
     Player
 }
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(BoxCollider2D))]
 public class Bullet : MonoBehaviour
 {
     public Team team;
@@ -29,9 +28,9 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collider2D)
+    protected virtual void OnTriggerEnter2D(Collider2D collider2D)
     {
-        if(team == Team.Enemy)
+        if (team == Team.Enemy)
         {
             if (collider2D.CompareTag(nameof(Player)))
             {
@@ -43,7 +42,10 @@ public class Bullet : MonoBehaviour
         {
             if (collider2D.CompareTag(nameof(Enemy)))
             {
-                collider2D.GetComponent<Enemy>().Hit();
+                Enemy enemy = collider2D.GetComponent<Enemy>();
+                if (enemy == null)
+                    enemy = collider2D.transform.parent.GetComponent<Enemy>();
+                enemy.Hit();
                 gameObject.SetActive(false);
             }
         }

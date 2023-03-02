@@ -8,6 +8,14 @@ public class SniperEnemy : Enemy
     [SerializeField] Bullet bullet;
     [SerializeField] float shootCooltime;
     float shootDuartion;
+    float removeDuration;
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        warning.gameObject.SetActive(false);
+        removeDuration = 0;
+    }
 
     protected override void Update()
     {
@@ -33,11 +41,23 @@ public class SniperEnemy : Enemy
             warning.transform.Translate(Vector2.down * 10);
             StartCoroutine(Shoot());
         }
+        removeDuration += Time.deltaTime;
+        if (removeDuration >= 10)
+        {
+            Die();
+        }
     }
 
     IEnumerator Shoot()
     {
-        yield return new WaitForSeconds(1.5f);
+        var wait = new WaitForSeconds(0.05f);
+        for(int i = 0; i < 15; i++)
+        {
+            warning.color = new Color(warning.color.r, warning.color.g, warning.color.b, 0.45f);
+            yield return wait;
+            warning.color = new Color(warning.color.r, warning.color.g, warning.color.b, 0.15f);
+            yield return wait;
+        }
         GameObject bulletObj = PoolManager.Instance.Init(bullet.gameObject);
         bulletObj.transform.position = transform.position;
         bulletObj.transform.rotation = transform.rotation;
