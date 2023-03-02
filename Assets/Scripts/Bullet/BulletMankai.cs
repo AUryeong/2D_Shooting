@@ -10,7 +10,10 @@ public class BulletMankai : Bullet
         {
             if (collider2D.CompareTag(nameof(Enemy)))
             {
-                collider2D.GetComponent<Enemy>().Hit(3);
+                Enemy enemy = collider2D.GetComponent<Enemy>();
+                if (enemy == null)
+                    enemy = collider2D.transform.parent.GetComponent<Enemy>();
+                enemy.Hit(3);
             }
         }
     }
