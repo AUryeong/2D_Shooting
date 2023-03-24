@@ -128,7 +128,8 @@ MonoBehaviour:
   defaultHp: 1300
   warning: {fileID: 8935426381373063566}
   bullet: {fileID: 1395855589348654776, guid: d9ac35fea9413ae4a86be21e3221bfeb, type: 3}
-  gunBullet: {fileID: 0}
+  gunBullet: {fileID: 3767561489413898880, guid: a6469d957dc092b4a8bfb1c906fef97e, type: 3}
+  fastGunBullet: {fileID: 8744231747826403570, guid: 2c703452c5f88e04d848230278fc4fdf, type: 3}
   defaultMob: {fileID: 7625957916191556414, guid: 507e40bfc92f68b4db04af25dde8392d, type: 3}
   dashSpeed: 32
 --- !u!1 &8935426381373063600

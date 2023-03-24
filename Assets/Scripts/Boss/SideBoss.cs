@@ -7,6 +7,7 @@ public class SideBoss : Boss
     [SerializeField] SpriteRenderer warning;
     [SerializeField] Bullet bullet;
     [SerializeField] Bullet gunBullet;
+    [SerializeField] Bullet fastGunBullet;
     [SerializeField] Enemy defaultMob;
 
     Vector3 leftUp = new Vector3(-6.1f, 4, 0);
@@ -31,7 +32,7 @@ public class SideBoss : Boss
                 GameObject obj = PoolManager.Instance.Init(gunBullet.gameObject);
                 obj.transform.rotation = Quaternion.Euler(0, 0, i * 20);
                 obj.transform.position = transform.position;
-                obj.transform.localScale = bullet.transform.localScale * 6f;
+                obj.transform.localScale = gunBullet.transform.localScale * 3f;
             }
             yield return wait;
         }
@@ -79,7 +80,7 @@ public class SideBoss : Boss
             float deg = Mathf.Atan2(vector.y, vector.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.Euler(0, 0, deg + 90);
 
-            warning.transform.Translate(Vector2.down * (phaseTwo ? 20 : 10));
+            warning.transform.Translate(Vector2.down * transform.localScale.x * 10);
             var wait = new WaitForSeconds(0.05f);
             for (int i = 0; i < 5; i++)
             {
@@ -108,12 +109,25 @@ public class SideBoss : Boss
             obj.transform.position = transform.position;
             if (phaseTwo)
                 obj.transform.localScale = bullet.transform.localScale * 1.2f;
+
+            obj = PoolManager.Instance.Init(bullet.gameObject);
+            obj.transform.rotation = Quaternion.Euler(0, 0, 60 + i * 10);
+            obj.transform.position = transform.position;
+            if (phaseTwo)
+                obj.transform.localScale = bullet.transform.localScale * 1.2f;
             yield return wait;
         }
         for (int i = 0; i < 16; i++)
         {
             GameObject obj = PoolManager.Instance.Init(bullet.gameObject);
             obj.transform.rotation = Quaternion.Euler(0, 0, 120 + i * -10);
+            obj.transform.position = transform.position;
+            if (phaseTwo)
+                obj.transform.localScale = bullet.transform.localScale * 1.2f;
+
+
+            obj = PoolManager.Instance.Init(bullet.gameObject);
+            obj.transform.rotation = Quaternion.Euler(0, 0, 300 + i * -10);
             obj.transform.position = transform.position;
             if (phaseTwo)
                 obj.transform.localScale = bullet.transform.localScale * 1.2f;
@@ -131,21 +145,24 @@ public class SideBoss : Boss
         }
         for (int i = 0; i < 38; i++)
         {
-            GameObject obj = PoolManager.Instance.Init(bullet.gameObject);
-            obj.transform.rotation = Quaternion.Euler(0, 0, 120 + i * -10 + 5);
-            obj.transform.position = transform.position;
-            if (phaseTwo)
-                obj.transform.localScale = bullet.transform.localScale * 1.2f;
+            for (int j = 0; j < 4; j++)
+            {
+                GameObject obj = PoolManager.Instance.Init(bullet.gameObject);
+                obj.transform.rotation = Quaternion.Euler(0, 0, 35 + j * 90 + i * -10);
+                obj.transform.position = transform.position;
+                if (phaseTwo)
+                    obj.transform.localScale = bullet.transform.localScale * 1.2f;
+            }
             yield return wait;
         }
-        for (int i = 0; i < 16; i++)
+        yield return new WaitForSeconds(1);
+        for (int i = 0; i < 36; i++)
         {
-            GameObject obj = PoolManager.Instance.Init(bullet.gameObject);
-            obj.transform.rotation = Quaternion.Euler(0, 0, 240 + i * 10 + 5);
+            GameObject obj = i%2 == 0 ? PoolManager.Instance.Init(fastGunBullet.gameObject) : PoolManager.Instance.Init(bullet.gameObject);
+            obj.transform.rotation = Quaternion.Euler(0, 0, i * 10 + Random.Range(5f, -5f));
             obj.transform.position = transform.position;
             if (phaseTwo)
-                obj.transform.localScale = bullet.transform.localScale * 1.2f;
-            yield return wait;
+                obj.transform.localScale = obj.transform.localScale * 1.2f;
         }
     }
 
@@ -198,7 +215,7 @@ public class SideBoss : Boss
 
     protected override void PhaseTwo()
     {
-            StartCoroutine(Big());
+        StartCoroutine(Big());
     }
     IEnumerator Big()
     {
