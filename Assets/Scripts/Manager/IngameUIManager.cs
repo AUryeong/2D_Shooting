@@ -20,6 +20,8 @@ public class IngameUIManager : MonoBehaviour
     [SerializeField] Text maxExpText;
     [SerializeField] Image expGauge;
 
+    [SerializeField] Image fuelGauge;
+
     [Header("게임오버")]
     [SerializeField] GameObject gameOverWindow;
     [SerializeField] Text gameOverScoreText;
@@ -30,6 +32,10 @@ public class IngameUIManager : MonoBehaviour
     [Header("스킬")]
     [SerializeField] Image lastSkill;
     [SerializeField] List<Image> skillList;
+
+    [Header("스킬리스트")]
+    [SerializeField] Image cooltimeDuration;
+    [SerializeField] Image cooltimeDuration2;
 
     [Header("보스")]
     public Image bossBar;
@@ -175,12 +181,28 @@ public class IngameUIManager : MonoBehaviour
         levelText.text = "Level " + level;
     }
 
+    public void FuelChange(float fuel)
+    {
+        fuelGauge.fillAmount = fuel;
+    }
+
     public void ExpChange(int exp)
     {
         expText.text = exp.ToString();
         expGauge.fillAmount = (float)exp / Player.Instance.MaxExp;
 
     }
+
+    public void CooltimeChanage(float time)
+    {
+        cooltimeDuration.fillAmount = time;
+    }
+
+    public void Cooltime2Chanage(float time)
+    {
+        cooltimeDuration2.fillAmount = time;
+    }
+
     public void MaxExpChange(int maxExp)
     {
         maxExpText.text = maxExp.ToString();

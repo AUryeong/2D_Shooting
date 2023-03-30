@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class IngameManager : Singleton<IngameManager>
 {
@@ -52,6 +53,7 @@ public class IngameManager : Singleton<IngameManager>
 
     [SerializeField] Vector2 minPos;
     [SerializeField] Vector2 maxPos;
+    [SerializeField] Text nextStageText;
 
     [SerializeField] Enemy[] mobs;
     [SerializeField] SideBoss sideBoss;
@@ -59,6 +61,17 @@ public class IngameManager : Singleton<IngameManager>
     [SerializeField] TwinBoss secondBoss;
 
     private float scoreAddDuration = 0;
+
+    public void NextStage()
+    {
+        StartCoroutine(NextStageCoroutine());
+        IEnumerator NextStageCoroutine()
+        {
+            nextStageText.gameObject.SetActive(true);
+            yield return new WaitForSeconds(2);
+            nextStageText.gameObject.SetActive(false);
+        }
+    }
     public void CameraShake(float power, float duration)
     {
         StartCoroutine(CameraShakeCoroutine(power, duration));
@@ -262,6 +275,8 @@ public class IngameManager : Singleton<IngameManager>
     {
         clearSideSideBoss = true;
         PoolManager.Instance.Init(sideSideBoss.gameObject).transform.position = new Vector3(-2.1f, 7, 0);
+
+        CameraShake(1, 2);
     }
 
     public void CreateSecondBoss()
@@ -270,6 +285,8 @@ public class IngameManager : Singleton<IngameManager>
         clearSideSideBoss = true;
         clearSecondBoss = true;
         PoolManager.Instance.Init(secondBoss.gameObject).transform.position = new Vector3(-2.1f, 7, 0);
+
+        CameraShake(1, 2);
     }
 
     public void CreateSideBoss()
@@ -277,6 +294,8 @@ public class IngameManager : Singleton<IngameManager>
         clearSideBoss = true;
         clearSideSideBoss = true;
         PoolManager.Instance.Init(sideBoss.gameObject).transform.position = new Vector3(-2.1f, 7, 0);
+
+        CameraShake(1, 2);
     }
 
     public void GameOver()

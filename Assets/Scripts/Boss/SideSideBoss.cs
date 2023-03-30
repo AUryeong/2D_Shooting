@@ -39,5 +39,6 @@ public class SideSideBoss : Boss
         Player.Instance.Exp += Player.Instance.MaxExp;
         PoolManager.Instance.Init(IngameManager.Instance.bossDeathEffect.gameObject).transform.position = transform.position;
         Destroy(gameObject);
+        IngameManager.Instance.NextStage();
     }
 }

@@ -66,6 +66,12 @@ public class SideBoss : Boss
         yield return MoveTo(rightUp);
     }
 
+
+    public override void Die()
+    {
+        base.Die();
+        IngameManager.Instance.NextStage();
+    }
     IEnumerator SecondPattern()
     {
         int repeat = 5;

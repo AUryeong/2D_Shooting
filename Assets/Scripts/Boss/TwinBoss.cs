@@ -45,6 +45,7 @@ public class TwinBoss : Boss
         Destroy(gameObject);
         foreach (var bullet in bulletList)
             bullet.gameObject.SetActive(false);
+        IngameManager.Instance.NextStage();
     }
 
     protected override void OnEnable()

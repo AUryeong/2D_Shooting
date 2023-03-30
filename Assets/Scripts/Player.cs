@@ -89,15 +89,35 @@ public class Player : Singleton<Player>
     [SerializeField] Bullet playerBullet;
     [SerializeField] BulletMankai playerBulletMankai;
 
+    int upgradeLevel = 0;
+
     [Space(20f)]
     public float defaultPower = 1;
     public float power;
+    public float Fuel
+    {
+        set
+        {
+            fuel = value;
+            IngameManager.Instance.uiManager.FuelChange(value / 100f);
+        }
+        get
+        {
+            return fuel;
+        }
+    }
+    private float fuel;
 
     public float defaultAttackSpeed = 0.1f;
     public float attackSpeed;
 
     public int defaultMultiplier = 1;
     public int multiplier;
+
+    public float Skill1Cool = 10;
+    public float defaultSkill1Cool = 10;
+    public float Skill2Cool = 10;
+    public float defaultSkill2Cool = 10;
 
     public float invTime = 1;
     bool inv;
@@ -122,11 +142,18 @@ public class Player : Singleton<Player>
         MaxExp = defaultMaxExp;
         Exp = 0;
 
+        Fuel = 100;
         Hp = defaulthp;
         power = defaultPower;
         multiplier = defaultMultiplier;
         attackSpeed = defaultAttackSpeed;
         hitable = true;
+
+
+        Skill1Cool = 0;
+        IngameManager.Instance.uiManager.CooltimeChanage(Skill1Cool);
+        Skill2Cool = 0;
+        IngameManager.Instance.uiManager.Cooltime2Chanage(Skill2Cool);
     }
 
     private void Start()
@@ -195,6 +222,41 @@ public class Player : Singleton<Player>
         {
             Level++;
         }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            if (Skill1Cool <= 0)
+            {
+                Skill1Cool = defaultSkill1Cool;
+                Hp++;
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            if (Skill2Cool <= 0)
+            {
+                Skill2Cool = defaultSkill2Cool;
+                foreach (Enemy enemy in FindObjectsOfType<Enemy>())
+                {
+                    if (enemy is Boss) continue;
+                    enemy.Die();
+                }
+                foreach (Bullet bullet in FindObjectsOfType<Bullet>())
+                {
+                    bullet.gameObject.SetActive(false);
+                }
+            }
+        }
+        if (Skill1Cool > 0)
+        {
+            Skill1Cool -= Time.deltaTime;
+            IngameManager.Instance.uiManager.CooltimeChanage(Skill1Cool / defaultSkill1Cool);
+        }
+        if (Skill2Cool > 0)
+        {
+            Skill2Cool -= Time.deltaTime;
+            IngameManager.Instance.uiManager.Cooltime2Chanage(Skill2Cool / defaultSkill2Cool);
+            Debug.Log(Skill2Cool);
+        }
     }
 
     private void Update()
@@ -205,6 +267,15 @@ public class Player : Singleton<Player>
         ShootUpdate();
         Move();
         SkillKey();
+        FuelUpdate();
+    }
+    private void FuelUpdate()
+    {
+        Fuel -= Time.deltaTime;
+        if (Fuel <= 0)
+        {
+            IngameManager.Instance.GameOver();
+        }
     }
 
     private void Move()
@@ -220,19 +291,23 @@ public class Player : Singleton<Player>
 
     private void ShootUpdate()
     {
-        attackDuration += Time.deltaTime;
-        if (attackDuration >= attackSpeed)
+        if (Input.GetKey(KeyCode.X))
         {
-            attackDuration -= attackSpeed;
-
-            Vector3 left = transform.position + new Vector3(0.2f * (multiplier - 1), 0, 0);
-
-            for (int i = 0; i < multiplier; i++)
+            bool click = Input.GetKeyDown(KeyCode.X);
+            attackDuration += Time.deltaTime;
+            if (attackDuration >= attackSpeed || click)
             {
-                GameObject obj = PoolManager.Instance.Init(playerBullet.gameObject);
-                obj.transform.position = left + new Vector3(-0.4f * i, 0, 0);
-            }
+                if (!click)
+                    attackDuration -= attackSpeed;
 
+                Vector3 left = transform.position + new Vector3(0.2f * (multiplier - 1), 0, 0);
+
+                for (int i = 0; i < multiplier; i++)
+                {
+                    GameObject obj = PoolManager.Instance.Init(playerBullet.gameObject);
+                    obj.transform.position = left + new Vector3(-0.4f * i, 0, 0);
+                }
+            }
         }
     }
     private void OnTriggerEnter2D(Collider2D collider2D)
@@ -266,16 +341,23 @@ public class Player : Singleton<Player>
             switch (type)
             {
                 case SkillType.Red:
+                    if (upgradeLevel < 4)
+                    {
+                        upgradeLevel++;
+                        multiplier++;
+                    }
                     power++;
                     break;
                 case SkillType.Yellow:
                     multiplier++;
                     break;
                 case SkillType.Green:
+                    Hp++;
                     invTime += 2;
                     break;
                 case SkillType.Blue:
                     attackSpeed /= 1.5f;
+                    Fuel = 100;
                     break;
             }
         }
@@ -321,15 +403,22 @@ public class Player : Singleton<Player>
             case SkillType.Red:
                 GameObject obj2 = PoolManager.Instance.Init(playerBulletMankai.gameObject);
                 obj2.transform.position = transform.position;
+                if (upgradeLevel < 4)
+                {
+                    upgradeLevel++;
+                    multiplier++;
+                }
                 break;
             case SkillType.Yellow:
                 StartCoroutine(YellowMankai());
                 break;
             case SkillType.Green:
                 Hp++;
+                Hp++;
                 break;
             case SkillType.Blue:
                 StartCoroutine(Gatling());
+                Fuel = 100;
                 break;
         }
     }
